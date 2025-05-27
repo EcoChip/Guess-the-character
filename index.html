@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guess the Character</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+    img {
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    .vidas {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎮 Guess the Character 🎮</h1>
+<img id="characterImage" src="images/gioele_blur.jpg" alt="Character Image">
+<br>
+<input type="text" id="guessInput" placeholder="Adivina el nombre">
+<button onclick="checkGuess()">Adivinar</button>
+
+<p class="vidas">Vidas: <span id="lives">3</span></p>
+<p id="message"></p>
+
+<script>
+  const characters = [
+    { name: "gioele", blur: "images/gioele_blur.jpg", clear: "images/gioele_clear.jpg" },
+    { name: "levi", blur: "images/levi_blur.jpg", clear: "images/levi_clear.jpg" },
+    { name: "dani", blur: "images/dani_blur.jpg", clear: "images/dani_clear.jpg" },
+    { name: "alex", blur: "images/alex_blur.jpg", clear: "images/alex_clear.jpg" },
+    { name: "lucia", blur: "images/lucia_blur.jpg", clear: "images/lucia_clear.jpg" },
+    { name: "adriana", blur: "images/adriana_blur.jpg", clear: "images/adriana_clear.jpg" },
+    { name: "mario", blur: "images/mario_blur.jpg", clear: "images/mario_clear.jpg" }
+  ];
+
+  let currentIndex = 0;
+  let lives = 3;
+
+  function loadCharacter() {
+    document.getElementById("characterImage").src = characters[currentIndex].blur;
+    document.getElementById("guessInput").value = "";
+    document.getElementById("message").textContent = "";
+  }
+
+  function checkGuess() {
+    const guess = document.getElementById("guessInput").value.trim().toLowerCase();
+    const correctName = characters[currentIndex].name.toLowerCase();
+
+    if (guess === correctName) {
+      document.getElementById("characterImage").src = characters[currentIndex].clear;
+      document.getElementById("message").textContent = "¡Correcto!";
+      setTimeout(() => {
+        currentIndex++;
+        if (currentIndex >= characters.length) {
+          alert("¡Has adivinado todos los personajes! 🎉");
+          currentIndex = 0;
+          lives = 3;
+        }
+        document.getElementById("lives").textContent = lives;
+        loadCharacter();
+      }, 2000);
+    } else {
+      lives--;
+      document.getElementById("lives").textContent = lives;
+      document.getElementById("message").textContent = "Incorrecto. Intenta de nuevo.";
+      if (lives === 0) {
+        alert("¡Has perdido todas tus vidas! Vuelve a empezar.");
+        currentIndex = 0;
+        lives = 3;
+        document.getElementById("lives").textContent = lives;
+        loadCharacter();
+      }
+    }
+  }
+
+  loadCharacter();
+</script>
+
+</body>
+</html>
