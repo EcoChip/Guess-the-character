@@ -46,6 +46,9 @@
     { name: "mario", blur: "images/mario_blur.jpg", clear: "images/mario_clear.jpg" }
   ];
 
+  // Desordenar el array de personajes al cargar el juego
+characters.sort(() => Math.random() - 0.5);
+
   let currentIndex = 0;
   let lives = 3;
 
